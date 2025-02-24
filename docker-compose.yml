@@ -12,6 +12,7 @@ services:
       DB_USERNAME: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_PORT: ${MYSQL_TCP_PORT}
+      APP_KEY: ${LARAVEL_APP_KEY}
     networks:
       - app-network
     depends_on:
