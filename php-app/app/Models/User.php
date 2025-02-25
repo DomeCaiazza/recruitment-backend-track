@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -19,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
     ];
@@ -44,5 +47,24 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($resource) {
+            Log::info('User created', ['id' => $resource->id, 'email' => $resource->email]);
+        });
+
+        static::updated(function ($resource) {
+            Log::info('User updated',
+            ['id' => $resource->id,
+            'email' => $resource->email,
+            'name' => $resource->name,
+            'surname' => $resource->surname]);
+        });
+
+        static::deleted(function ($resource) {
+            Log::info('User deleted', ['id' => $resource->id]);
+        });
     }
 }
