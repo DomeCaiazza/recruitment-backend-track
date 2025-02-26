@@ -69,6 +69,11 @@ class UserController extends Controller
             'password' => 'sometimes',
           ]);
         $user->update($validatedData);
+
+        if (!$user->wasChanged()) {
+            return response()->noContent();
+        }
+
         return response()->json([   
             'message' => 'User updated successfully.',
             'data' => new UserResource($user)
@@ -82,8 +87,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return response()->json([
-            'message' => 'User deleted successfully.'
-        ], 200);
+        return response()->noContent();
     }
 }
