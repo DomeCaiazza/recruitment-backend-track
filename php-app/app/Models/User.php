@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
+
+    public function taxProfile()
+    {
+        return $this->hasMany(TaxProfile::class);
+    }
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
