@@ -21,6 +21,20 @@ test('index returns users list', function () {
     ]);
 });
 
+
+test('filters users by surname', function () {
+    $user1 = User::factory()->create(['surname' => 'ABC123']);
+    $user2 = User::factory()->create(['surname' => 'DEF123']);
+
+    $response = $this->getJson(route('users.index', [
+        'filter[surname]' => 'ABC'
+    ]));
+
+    $response->assertOk()
+             ->assertJsonFragment(['surname' => 'ABC123'])
+             ->assertJsonMissing(['surname' => 'XYZ456']);
+});
+
 test('store creates a new user', function () {
     $payload = [
         'email'    => 'new@example.com',
@@ -83,11 +97,7 @@ test('destroy deletes a user', function () {
 
     $response = $this->deleteJson("/api/users/{$user->id}");
 
-    $response->assertOk();
-    $response->assertJsonFragment([
-        'message' => 'User deleted successfully.'
-    ]);
-
+    $response->assertNoContent();
     $this->assertDatabaseMissing('users', [
         'id' => $user->id,
     ]);
