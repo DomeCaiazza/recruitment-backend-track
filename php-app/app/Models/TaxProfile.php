@@ -15,6 +15,11 @@ class TaxProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function invoice()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     protected $fillable = [
         'user_id',
         'tax_code',
