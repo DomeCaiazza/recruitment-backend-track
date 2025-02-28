@@ -44,7 +44,7 @@ class TaxProfileController extends Controller
             'vat_number' => 'sometimes|max:128',
             'business_name' => 'sometimes|max:128',
           ]);
-        $taxProfile = $user->taxProfile()->create($validatedData);
+        $taxProfile = $user->taxProfiles()->create($validatedData);
         return response()->json([
             'message' => 'TaxProfile created successfully.',
             'data' => new TaxProfileResource($taxProfile)

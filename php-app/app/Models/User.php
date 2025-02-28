@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Authenticatable
 {
 
-    public function taxProfile()
+    public function taxProfiles()
     {
         return $this->hasMany(TaxProfile::class);
     }

@@ -57,7 +57,7 @@ class InvoiceController extends Controller
             'notes' => 'sometimes'
           ]);
         try {
-            $invoice = $taxProfile->invoice()->create($validatedData);
+            $invoice = $taxProfile->invoices()->create($validatedData);
         } catch (\InvalidArgumentException $e) {
             return response()->json(['message' => $e->getMessage()], 400);
         }
