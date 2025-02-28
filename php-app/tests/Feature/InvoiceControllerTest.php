@@ -17,7 +17,9 @@ test('index returns a paginated list of invoices', function () {
     Invoice::factory()->count(15)->create(['tax_profile_id' => $this->taxProfile->id]);
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices";
-    $response = $this->getJson($url);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->getJson($url);
 
     $response->assertStatus(200)
              ->assertJsonStructure([
@@ -47,7 +49,9 @@ test('store creates a new invoice', function () {
     ];
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices";
-    $response = $this->postJson($url, $payload);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->postJson($url, $payload);
 
     $response->assertStatus(201)
              ->assertJson([
@@ -74,7 +78,9 @@ test('show returns the specified invoice', function () {
     $invoice = Invoice::factory()->create(['tax_profile_id' => $this->taxProfile->id]);
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices/{$invoice->id}";
-    $response = $this->getJson($url);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->getJson($url);
 
     $response->assertStatus(200)
              ->assertJson([
@@ -93,7 +99,9 @@ test('update modifies an existing invoice', function () {
     ];
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices/{$invoice->id}";
-    $response = $this->putJson($url, $payload);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->putJson($url, $payload);
 
     if ($response->getStatusCode() === 204) {
         $this->assertDatabaseHas('invoices', [
@@ -117,7 +125,9 @@ test('destroy deletes the invoice', function () {
     $invoice = Invoice::factory()->create(['tax_profile_id' => $this->taxProfile->id]);
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices/{$invoice->id}";
-    $response = $this->deleteJson($url);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->deleteJson($url);
 
     $response->assertNoContent();
 

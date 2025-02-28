@@ -9,7 +9,9 @@ test('index returns users list', function () {
 
     User::factory()->count(3)->create();
 
-    $response = $this->getJson('/api/users?per_page=10');
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->getJson('/api/users?per_page=10');
 
     $response->assertOk();
     $response->assertJsonStructure([
@@ -26,7 +28,9 @@ test('filters users by surname', function () {
     $user1 = User::factory()->create(['surname' => 'ABC123']);
     $user2 = User::factory()->create(['surname' => 'DEF123']);
 
-    $response = $this->getJson(route('users.index', [
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->getJson(route('users.index', [
         'filter[surname]' => 'ABC'
     ]));
 
@@ -43,7 +47,9 @@ test('store creates a new user', function () {
         'password' => 'password123',
     ];
 
-    $response = $this->postJson('/api/users', $payload);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->postJson('/api/users', $payload);
 
     $response->assertStatus(201);
     $response->assertJsonFragment([
@@ -60,7 +66,9 @@ test('store creates a new user', function () {
 test('show returns a specific user', function () {
     $user = User::factory()->create();
 
-    $response = $this->getJson("/api/users/{$user->id}");
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->getJson("/api/users/{$user->id}");
 
     $response->assertOk();
     $response->assertJsonFragment([
@@ -79,7 +87,9 @@ test('update modifies an existing user', function () {
         'name' => 'Updated Name',
     ];
 
-    $response = $this->putJson("/api/users/{$user->id}", $payload);
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->putJson("/api/users/{$user->id}", $payload);
 
     $response->assertOk();
     $response->assertJsonFragment([
@@ -95,7 +105,9 @@ test('update modifies an existing user', function () {
 test('destroy deletes a user', function () {
     $user = User::factory()->create();
 
-    $response = $this->deleteJson("/api/users/{$user->id}");
+    $response = $this->withHeaders([
+        'X-API-KEY' => 'secret_testing',
+    ])->deleteJson("/api/users/{$user->id}");
 
     $response->assertNoContent();
     $this->assertDatabaseMissing('users', [
