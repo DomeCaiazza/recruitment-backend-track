@@ -15,19 +15,12 @@ RUN apk add --no-cache git unzip
 
 WORKDIR /app
 
-COPY php-app/composer.json php-app/composer.lock ./
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer install --no-dev --prefer-dist --no-scripts --no-progress --optimize-autoloader
-
-COPY php-app/ .
-
 
 FROM base AS runtime
 
 WORKDIR /var/www/html
-
-COPY --from=builder /app/ .
 
 RUN chown -R www-data:www-data /var/www/html
 
