@@ -18,7 +18,7 @@ test('index returns a paginated list of invoices', function () {
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices";
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson($url);
 
     $response->assertStatus(200)
@@ -50,7 +50,7 @@ test('store creates a new invoice', function () {
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices";
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->postJson($url, $payload);
 
     $response->assertStatus(201)
@@ -79,7 +79,7 @@ test('show returns the specified invoice', function () {
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices/{$invoice->id}";
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson($url);
 
     $response->assertStatus(200)
@@ -100,7 +100,7 @@ test('update modifies an existing invoice', function () {
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices/{$invoice->id}";
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->putJson($url, $payload);
 
     if ($response->getStatusCode() === 204) {
@@ -126,7 +126,7 @@ test('destroy deletes the invoice', function () {
 
     $url = "/api/users/{$this->user->id}/tax-profiles/{$this->taxProfile->id}/invoices/{$invoice->id}";
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->deleteJson($url);
 
     $response->assertNoContent();

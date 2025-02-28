@@ -14,7 +14,7 @@ test('returns a list of tax profiles', function () {
     TaxProfile::factory()->count(5)->create(['user_id' => $this->user->id]);
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson(route('users.tax-profiles.index', ['user' => $this->user->id]) . '?per_page=10');
 
     $response->assertOk()
@@ -34,7 +34,7 @@ test('filters tax profiles by tax code', function () {
     $profile2 = TaxProfile::factory()->create(['user_id' => $this->user->id, 'tax_code' => 'XYZ456']);
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson(route('users.tax-profiles.index', [
         'user' => $this->user->id,
         'filter[tax_code]' => 'ABC'
@@ -54,7 +54,7 @@ test('creates a new tax profile', function () {
     ];
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->postJson(route('users.tax-profiles.store', $this->user), $data);
 
     $response->assertCreated()
@@ -67,7 +67,7 @@ test('displays a specific tax profile', function () {
     $taxProfile = TaxProfile::factory()->create(['user_id' => $this->user->id]);
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson(route('users.tax-profiles.show', [$this->user, $taxProfile]));
 
     $response->assertOk()
@@ -79,7 +79,7 @@ test('returns 404 if user does not own tax profile', function () {
     $taxProfile = TaxProfile::factory()->create(['user_id' => $anotherUser->id]);
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson(route('users.tax-profiles.show', [$this->user, $taxProfile]));
 
     $response->assertNotFound();
@@ -91,7 +91,7 @@ test('updates a tax profile', function () {
     $updateData = ['business_name' => 'Updated Business'];
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->putJson(route('users.tax-profiles.update', [$this->user, $taxProfile]), $updateData);
 
     $response->assertOk()
@@ -104,7 +104,7 @@ test('deletes a tax profile', function () {
     $taxProfile = TaxProfile::factory()->create(['user_id' => $this->user->id]);
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->deleteJson(route('users.tax-profiles.destroy', [$this->user, $taxProfile]));
 
     $response->assertNoContent();

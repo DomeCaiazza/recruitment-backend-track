@@ -14,10 +14,13 @@ services:
       DB_PORT: ${MYSQL_TCP_PORT}
       APP_KEY: ${LARAVEL_APP_KEY}
       API_KEY: ${LARAVEL_API_KEY}
+      API_KEY_TESTING: ${LARAVEL_API_KEY_TESTING}
     networks:
       - app-network
     depends_on:
       db:
+        condition: service_healthy
+      db-testing:
         condition: service_healthy
 
   web:
@@ -46,6 +49,25 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  db-testing:
+    image: mysql:8.0
+    container_name: mysql-db-testing
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}t
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_TCP_PORT: ${MYSQL_TCP_PORT}
+    networks:
+      - app-network
+    tmpfs:
+      - /var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s

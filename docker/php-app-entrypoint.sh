@@ -7,4 +7,6 @@ fi
 
 php artisan migrate --force
 
+php artisan test
+
 exec php-fpm

@@ -10,7 +10,7 @@ test('index returns users list', function () {
     User::factory()->count(3)->create();
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson('/api/users?per_page=10');
 
     $response->assertOk();
@@ -29,7 +29,7 @@ test('filters users by surname', function () {
     $user2 = User::factory()->create(['surname' => 'DEF123']);
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson(route('users.index', [
         'filter[surname]' => 'ABC'
     ]));
@@ -48,7 +48,7 @@ test('store creates a new user', function () {
     ];
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->postJson('/api/users', $payload);
 
     $response->assertStatus(201);
@@ -67,7 +67,7 @@ test('show returns a specific user', function () {
     $user = User::factory()->create();
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->getJson("/api/users/{$user->id}");
 
     $response->assertOk();
@@ -88,7 +88,7 @@ test('update modifies an existing user', function () {
     ];
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->putJson("/api/users/{$user->id}", $payload);
 
     $response->assertOk();
@@ -106,7 +106,7 @@ test('destroy deletes a user', function () {
     $user = User::factory()->create();
 
     $response = $this->withHeaders([
-        'X-API-KEY' => 'secret_testing',
+        'X-API-KEY' => env('API_KEY_TESTING'),
     ])->deleteJson("/api/users/{$user->id}");
 
     $response->assertNoContent();

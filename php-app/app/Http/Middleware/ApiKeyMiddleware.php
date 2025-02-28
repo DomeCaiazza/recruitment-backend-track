@@ -11,7 +11,12 @@ class ApiKeyMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $providedKey = $request->header('x-api-key');
-        $expectedKey = env('API_KEY', 'secret');
+        if(env('APP_ENV') === 'testing') {
+            $expectedKey = env('API_KEY_TESTING', 'secret_test');
+        }else {
+            $expectedKey = env('API_KEY', 'secret');
+        }
+
 
         if (!$providedKey || $providedKey !== $expectedKey) {
             return response()->json([
