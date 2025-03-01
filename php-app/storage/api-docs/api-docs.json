@@ -1,0 +1,1669 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Invoice Management API project",
+        "description": "Invoice Management API project. It provides endpoints to manage users, tax profiles, and invoices. The project is structured using the MVC architecture and includes automated tests, Docker support, and API documentation via Postman.",
+        "contact": {
+            "email": "caiazza.domenico@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/users/{userId}/tax-profiles/{taxProfileId}/invoices": {
+            "get": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Retrieve a list of invoices",
+                "description": "Returns a paginated list of invoices, with the ability to filter by invoice number, date, currency, status, and notes.",
+                "operationId": "a3982b788f865f5eb109853f9431c83c",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "taxProfileId",
+                        "in": "path",
+                        "description": "ID of the tax profile",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of invoices per page (default is 10)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "filter[invoice_number]",
+                        "in": "query",
+                        "description": "Filter by invoice number (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[invoice_date]",
+                        "in": "query",
+                        "description": "Filter by invoice date (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "filter[invoice_date_before]",
+                        "in": "query",
+                        "description": "Filter invoices with a date less than or equal to the specified date",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "filter[invoice_date_after]",
+                        "in": "query",
+                        "description": "Filter invoices with a date greater than or equal to the specified date",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "filter[currency]",
+                        "in": "query",
+                        "description": "Filter by currency",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[notes]",
+                        "in": "query",
+                        "description": "Filter by notes (partial match)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Invoice"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Links"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Meta"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Create a new invoice",
+                "description": "Creates a new invoice for the specified tax profile.",
+                "operationId": "createInvoice",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "taxProfileId",
+                        "in": "path",
+                        "description": "ID of the tax profile",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "invoice_date",
+                                    "subtotal",
+                                    "tax_amount",
+                                    "discount"
+                                ],
+                                "properties": {
+                                    "invoice_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-03-01"
+                                    },
+                                    "subtotal": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100.5
+                                    },
+                                    "tax_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 15.07
+                                    },
+                                    "discount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "EUR"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Invoice for services rendered"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Invoice created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invoice created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Invoice"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{userId}/tax-profiles/{taxProfileId}/invoices/{id}": {
+            "get": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Retrieve a single invoice",
+                "description": "Returns a single invoice resource, ensuring that the invoice belongs to the specified tax profile. If the invoice does not belong to the given tax profile, a 404 error is returned.",
+                "operationId": "1bfadb664a2680615660e3ebc17bc147",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "taxProfileId",
+                        "in": "path",
+                        "description": "ID of the tax profile",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the invoice",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Invoice"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Update an invoice",
+                "description": "Updates an existing invoice. The invoice is updated only if it belongs to the specified tax profile. If no changes occur, a 204 No Content is returned.",
+                "operationId": "274bc2e1fc4c326ec04885f7cfdeb053",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "taxProfileId",
+                        "in": "path",
+                        "description": "ID of the tax profile",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the invoice",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "invoice_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-03-01"
+                                    },
+                                    "subtotal": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100.5
+                                    },
+                                    "tax_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 15.07
+                                    },
+                                    "discount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 5
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "USD"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "pending"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Updated invoice note"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invoice updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invoice updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Invoice"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content returned (no changes made)"
+                    },
+                    "400": {
+                        "description": "Bad Request - Invalid arguments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Invoices"
+                ],
+                "summary": "Delete invoice",
+                "description": "Deletes an Invoice by their ID and returns no content.",
+                "operationId": "f8ec16cf6d4c301609510dc548e353fd",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "taxProfileId",
+                        "in": "path",
+                        "description": "ID of the tax profile",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the Invoice to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Invoice deleted successfully, no content returned."
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{userId}/tax-profiles": {
+            "get": {
+                "tags": [
+                    "TaxProfiles"
+                ],
+                "summary": "Retrieves user's tax profiles",
+                "description": "Returns a paginated collection of tax profiles",
+                "operationId": "e6c0d5218d22f58e134dcbd71750942b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Results per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "filter[tax_code]",
+                        "in": "query",
+                        "description": "Filter for partial search of tax code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[address]",
+                        "in": "query",
+                        "description": "Filter for partial address search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[vat_number]",
+                        "in": "query",
+                        "description": "Filter for partial VAT number search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[business_name]",
+                        "in": "query",
+                        "description": "Filter for partial company name search",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TaxProfile"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Links"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Meta"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "TaxProfiles"
+                ],
+                "summary": "Create a new user's tax profile",
+                "description": "Creates a new tax profile associated with the specified user.",
+                "operationId": "3476ed191bd5ef7a0bb94c4ec5517e61",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data for creating a TaxProfile",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tax_code": {
+                                        "description": "Tax code (optional)",
+                                        "type": "string",
+                                        "maxLength": 128
+                                    },
+                                    "address": {
+                                        "description": "Address (optional)",
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "vat_number": {
+                                        "description": "VAT number (optional)",
+                                        "type": "string",
+                                        "maxLength": 128
+                                    },
+                                    "business_name": {
+                                        "description": "Business name (optional)",
+                                        "type": "string",
+                                        "maxLength": 128
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "example": {
+                                "tax_code": "RSSMRA80A01F205X",
+                                "address": "Via Roma 1, 00100, Milano",
+                                "vat_number": "11000500010",
+                                "business_name": "Mario Rossi Srl"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "TaxCode created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "TaxProfile created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TaxProfile"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableEntity"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{userId}/tax-profiles/{id}": {
+            "get": {
+                "tags": [
+                    "TaxProfiles"
+                ],
+                "summary": "Get a single TaxProfile",
+                "description": "Returns a single TaxProfile by their ID",
+                "operationId": "d2051745528b552227e1fed79d7262ba",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the TaxProfile to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User getted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaxProfile"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{userId}/tax-profiles/{id}": {
+            "put": {
+                "tags": [
+                    "TaxProfiles"
+                ],
+                "summary": "Update an existing TaxProfile",
+                "description": "Updates the details of a TaxProfile associated with the specified user. Returns a 404 error if the TaxProfile does not belong to the user.",
+                "operationId": "5b14eb8aeb1ef87d70d334d4ede6a47d",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "TaxProfile ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data for updating the TaxProfile",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tax_code": {
+                                        "description": "Tax code (optional)",
+                                        "type": "string",
+                                        "maxLength": 128
+                                    },
+                                    "address": {
+                                        "description": "Address (optional)",
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "vat_number": {
+                                        "description": "VAT number (optional)",
+                                        "type": "string",
+                                        "maxLength": 128
+                                    },
+                                    "business_name": {
+                                        "description": "Business name (optional)",
+                                        "type": "string",
+                                        "maxLength": 128
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "example": {
+                                "tax_code": "RSSMRA80A01F205X",
+                                "address": "Via Roma 2, 00100, Milano",
+                                "vat_number": "11000500010",
+                                "business_name": "New Mario Rossi Srl"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "TaxProfile updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "TaxProfile updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TaxProfile"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content returned (no changes made)"
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableEntity"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "TaxProfiles"
+                ],
+                "summary": "Delete a TaxProfile",
+                "description": "Deletes a TaxProfile by their ID and returns no content.",
+                "operationId": "ec3dffc2d7380f54d6321a0df1fec835",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the TaxProfile to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "TaxProfile deleted successfully, no content returned."
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List of users",
+                "description": "Returns a paginated collection of users",
+                "operationId": "d7a57f4d7de18fb0f92501172472c9b6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Results per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "filter[email]",
+                        "in": "query",
+                        "description": "Filter by email",
+                        "required": false,
+                        "schema": {
+                            "type": "steing",
+                            "format": "email",
+                            "example": "mario@example.com"
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name",
+                        "required": false,
+                        "schema": {
+                            "type": "steing",
+                            "example": "Mario"
+                        }
+                    },
+                    {
+                        "name": "filter[surname]",
+                        "in": "query",
+                        "description": "Filter by surname",
+                        "required": false,
+                        "schema": {
+                            "type": "steing",
+                            "example": "Rossi"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Links"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Meta"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "description": "Creates a new user after validating the input data and returns the created user's details.",
+                "operationId": "9fea6f2adcb69614c521a7733358382d",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    }
+                ],
+                "requestBody": {
+                    "description": "The required data for creating a new user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "name",
+                                    "surname",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnprocessableEntity"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a single user",
+                "description": "Returns a single user by their ID",
+                "operationId": "40a5104e23b52137e78c3d3ac48b88a8",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User getted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing user",
+                "description": "Updates an existing user's data. Only the provided fields will be updated.",
+                "operationId": "b166772cec9714067040e77cf14beeba",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to update",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data for updating the user. Include only the fields you wish to change.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "surname": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newSecret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User updated successfully."
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No content, meaning no fields were changed"
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "description": "Deletes a user by their ID and returns no content.",
+                "operationId": "ce06860a51ab016ef66e753544fe4563",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/xApiKeyHeader"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User deleted successfully, no content returned."
+                    },
+                    "404": {
+                        "description": "Record not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFound"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Invoice": {
+                "required": [
+                    "id",
+                    "user_id",
+                    "tax_profile_id",
+                    "subtotal",
+                    "tax_amount",
+                    "invoice_date"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tax_profile_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "invoice_number": {
+                        "type": "string",
+                        "example": "1740839386_NMEPW"
+                    },
+                    "invoice_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2021-01-01"
+                    },
+                    "subtotal": {
+                        "type": "string",
+                        "example": "100.00"
+                    },
+                    "tax_amount": {
+                        "type": "string",
+                        "example": "22.00"
+                    },
+                    "discount": {
+                        "type": "string",
+                        "example": "00.00"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "EUR"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "pending"
+                    },
+                    "paid_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "null"
+                    },
+                    "canceled_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "null"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "example": "Comment"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "Links": {
+                "properties": {
+                    "first": {
+                        "type": "string",
+                        "example": "[url]?page=1"
+                    },
+                    "last": {
+                        "type": "string",
+                        "example": "[url]?page=1"
+                    },
+                    "prev": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    },
+                    "next": {
+                        "type": "string",
+                        "example": null,
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Meta": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "example": null,
+                                    "nullable": true
+                                },
+                                "label": {
+                                    "type": "string",
+                                    "example": "&laquo; Previous"
+                                },
+                                "active": {
+                                    "type": "boolean",
+                                    "example": false
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://[path]"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 2
+                    }
+                },
+                "type": "object"
+            },
+            "NotFound": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Record not found"
+                    }
+                },
+                "type": "object"
+            },
+            "TaxProfile": {
+                "required": [
+                    "user_id",
+                    "tax_code",
+                    "address",
+                    "vat_number",
+                    "business_name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tax_code": {
+                        "type": "string",
+                        "example": "RSSMRA80A01F205X"
+                    },
+                    "address": {
+                        "type": "string",
+                        "example": "Via Roma 1, 00100, Milano"
+                    },
+                    "vat_number": {
+                        "type": "string",
+                        "example": "11000500010"
+                    },
+                    "business_name": {
+                        "type": "string",
+                        "example": "Mario Rossi Srl"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "UnprocessableEntity": {
+                "properties": {
+                    "message": {
+                        "properties": {
+                            "Field name": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "Field error message"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "required": [
+                    "id",
+                    "name",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Mario"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "example": "Rossi"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "mario@example.com"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "parameters": {
+            "xApiKeyHeader": {
+                "name": "x-api-key",
+                "in": "header",
+                "description": "API key authentication",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "secret"
+                }
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "x-api-key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Invoices",
+            "description": "Invoices"
+        },
+        {
+            "name": "TaxProfiles",
+            "description": "TaxProfiles"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}

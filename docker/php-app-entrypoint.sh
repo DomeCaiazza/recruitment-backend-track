@@ -9,4 +9,6 @@ php artisan migrate --force
 
 DB_HOST=db-testing php artisan test
 
+php artisan l5-swagger:generate
+
 exec php-fpm

@@ -26,6 +26,15 @@ return Application::configure(basePath: dirname(__DIR__))
             }
         });
 
+        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('api/*')) {
+                Log::notice('Validation error', ['request' => $request->url()]);
+                return response()->json([
+                    'message' => $e->errors()
+                ], 422);
+            }
+        });
+
         $exceptions->render(function (\Illuminate\Database\QueryException $e, \Illuminate\Http\Request $request) {
             if ($request->is('api/*') && $e->getCode() == 23000) {
                 Log::notice('Duplicate entry', ['request' => $request->url()]);
