@@ -74,16 +74,16 @@ Once the containers are up and running, the application will be accessible at: h
 ### Docker-compose utilities commands
 You can mannualy runs test with:
 ```bash
-docker-compose exec -e 'DB_HOST=db-testing' php php artisan test'
+docker-compose exec -e 'DB_HOST=db-testing' php php artisan test
  ```
 Database migration:
 ```bash
-docker-compose exec php php artisan migrate'
+docker-compose exec php php artisan migrate
  ```
 
 Create Seeds:
 ```bash
-docker-compose exec php php artisan db:seed'
+docker-compose exec php php artisan db:seed
  ```
 
 
