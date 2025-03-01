@@ -31,7 +31,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -92,7 +92,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -160,7 +160,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -223,7 +223,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -277,7 +277,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -339,7 +339,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -414,7 +414,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -473,7 +473,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -522,7 +522,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -601,7 +601,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -693,7 +693,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -780,7 +780,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "secret",
+								"value": "{{api_key}}",
 								"description": "required API key authentication",
 								"type": "text"
 							}
@@ -834,6 +834,11 @@
 		{
 			"key": "base_url",
 			"value": "http://localhost",
+			"type": "string"
+		},
+		{
+			"key": "api_key",
+			"value": "secret",
 			"type": "string"
 		}
 	]
