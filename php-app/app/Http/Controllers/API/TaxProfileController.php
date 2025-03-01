@@ -33,16 +33,6 @@ class TaxProfileController extends Controller
      *         )
      *     ),
      *     @OA\Parameter(
-     *         name="per_page",
-     *         in="query",
-     *         description="Results per page",
-     *         required=false,
-     *         @OA\Schema(
-     *             type="integer",
-     *             default=10
-     *         )
-     *     ),
-     *     @OA\Parameter(
      *         name="filter[tax_code]",
      *         in="query",
      *         description="Filter for partial search of tax code",
@@ -70,7 +60,8 @@ class TaxProfileController extends Controller
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
-     *     
+     *     @OA\Parameter(ref="#/components/parameters/per_page"),
+     *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -142,7 +133,7 @@ class TaxProfileController extends Controller
      *                 property="tax_code",
      *                 type="string",
      *                 maxLength=128,
-     *                 description="Tax code (optional)"
+     *                 description="Tax code (optional, must be unique with vat_number)"
      *             ),
      *             @OA\Property(
      *                 property="address",
@@ -154,7 +145,7 @@ class TaxProfileController extends Controller
      *                 property="vat_number",
      *                 type="string",
      *                 maxLength=128,
-     *                 description="VAT number (optional)"
+     *                 description="VAT number (optional, must be unique with tax_code)"
      *             ),
      *             @OA\Property(
      *                 property="business_name",

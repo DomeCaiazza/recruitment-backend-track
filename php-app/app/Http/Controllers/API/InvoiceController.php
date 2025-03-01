@@ -42,16 +42,6 @@ class InvoiceController extends Controller
     *         )
     *     ),
     *     @OA\Parameter(
-    *         name="per_page",
-    *         in="query",
-    *         description="Number of invoices per page (default is 10)",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="integer",
-    *             default=10
-    *         )
-    *     ),
-    *     @OA\Parameter(
     *         name="filter[invoice_number]",
     *         in="query",
     *         description="Filter by invoice number (partial match)",
@@ -117,6 +107,8 @@ class InvoiceController extends Controller
     *             type="string"
     *         )
     *     ),
+     *     @OA\Parameter(ref="#/components/parameters/per_page"),
+     *     @OA\Parameter(ref="#/components/parameters/page"),
     *     @OA\Response(
     *         response=200,
     *         description="Successful operation",

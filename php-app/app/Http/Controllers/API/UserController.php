@@ -22,13 +22,6 @@ class UserController extends Controller
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
      *     @OA\Parameter(
-     *         name="per_page",
-     *         in="query",
-     *         description="Results per page",
-     *         required=false,
-     *         @OA\Schema(type="integer", default=10)
-     *     ),
-     *     @OA\Parameter(
      *         name="filter[email]",
      *         in="query",
      *         description="Filter by email",
@@ -49,6 +42,8 @@ class UserController extends Controller
      *         required=false,
      *         @OA\Schema(type="steing", example="Rossi")
      *     ),
+     *     @OA\Parameter(ref="#/components/parameters/per_page"),
+     *     @OA\Parameter(ref="#/components/parameters/page"),
      * @OA\Response(
      *     response=200,
      *     description="Successful operation",

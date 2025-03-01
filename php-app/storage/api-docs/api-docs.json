@@ -40,16 +40,6 @@
                         }
                     },
                     {
-                        "name": "per_page",
-                        "in": "query",
-                        "description": "Number of invoices per page (default is 10)",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 10
-                        }
-                    },
-                    {
                         "name": "filter[invoice_number]",
                         "in": "query",
                         "description": "Filter by invoice number (partial match)",
@@ -114,6 +104,12 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/per_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
                     }
                 ],
                 "responses": {
@@ -581,16 +577,6 @@
                         }
                     },
                     {
-                        "name": "per_page",
-                        "in": "query",
-                        "description": "Results per page",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 10
-                        }
-                    },
-                    {
                         "name": "filter[tax_code]",
                         "in": "query",
                         "description": "Filter for partial search of tax code",
@@ -625,6 +611,12 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/per_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
                     }
                 ],
                 "responses": {
@@ -1018,16 +1010,6 @@
                         "$ref": "#/components/parameters/xApiKeyHeader"
                     },
                     {
-                        "name": "per_page",
-                        "in": "query",
-                        "description": "Results per page",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "default": 10
-                        }
-                    },
-                    {
                         "name": "filter[email]",
                         "in": "query",
                         "description": "Filter by email",
@@ -1057,6 +1039,12 @@
                             "type": "steing",
                             "example": "Rossi"
                         }
+                    },
+                    {
+                        "$ref": "#/components/parameters/per_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/page"
                     }
                 ],
                 "responses": {
@@ -1633,6 +1621,26 @@
             }
         },
         "parameters": {
+            "per_page": {
+                "name": "per_page",
+                "in": "query",
+                "description": "Results per page",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 10
+                }
+            },
+            "page": {
+                "name": "page",
+                "in": "query",
+                "description": "Results page",
+                "required": false,
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            },
             "xApiKeyHeader": {
                 "name": "x-api-key",
                 "in": "header",
