@@ -223,7 +223,7 @@ class InvoiceController extends Controller
      *                 property="currency",
      *                 type="string",
      *                 enum={"EUR", "USD"},
-     *                 example="pending"
+     *                 example="EUR"
      *             ),
      *             @OA\Property(
      *                 property="status",
