@@ -222,11 +222,13 @@ class InvoiceController extends Controller
      *             @OA\Property(
      *                 property="currency",
      *                 type="string",
-     *                 example="EUR"
+     *                 enum={"EUR", "USD"},
+     *                 example="pending"
      *             ),
      *             @OA\Property(
      *                 property="status",
      *                 type="string",
+     *                 enum={"pending", "paid", "canceled"},
      *                 example="pending"
      *             ),
      *             @OA\Property(

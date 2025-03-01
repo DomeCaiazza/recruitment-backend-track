@@ -562,11 +562,13 @@
 								},
 								{
 									"key": "currency",
-									"value": "EUR"
+									"value": "EUR",
+									"description": "enum, allowed values: EUR, USD"
 								},
 								{
 									"key": "status",
-									"value": "paid"
+									"value": "paid",
+									"description": "enum, allowed values: pending, paid, canceled"
 								},
 								{
 									"key": "notes",
@@ -729,11 +731,13 @@
 								},
 								{
 									"key": "currency",
-									"value": "EUR"
+									"value": "EUR",
+									"description": "enum, allowed values: EUR, USD"
 								},
 								{
 									"key": "status",
-									"value": "paid"
+									"value": "paid",
+									"description": "enum, allowed values: pending, paid, canceled"
 								},
 								{
 									"key": "notes",

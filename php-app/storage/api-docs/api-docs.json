@@ -227,10 +227,19 @@
                                     },
                                     "currency": {
                                         "type": "string",
+                                        "enum": [
+                                            "EUR",
+                                            "USD"
+                                        ],
                                         "example": "EUR"
                                     },
                                     "status": {
                                         "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "paid",
+                                            "canceled"
+                                        ],
                                         "example": "pending"
                                     },
                                     "notes": {
@@ -696,7 +705,7 @@
                             "schema": {
                                 "properties": {
                                     "tax_code": {
-                                        "description": "Tax code (optional)",
+                                        "description": "Tax code (optional, must be unique with vat_number)",
                                         "type": "string",
                                         "maxLength": 128
                                     },
@@ -706,7 +715,7 @@
                                         "maxLength": 255
                                     },
                                     "vat_number": {
-                                        "description": "VAT number (optional)",
+                                        "description": "VAT number (optional, must be unique with tax_code)",
                                         "type": "string",
                                         "maxLength": 128
                                     },
@@ -1401,10 +1410,19 @@
                     },
                     "currency": {
                         "type": "string",
+                        "enum": [
+                            "EUR",
+                            "USD"
+                        ],
                         "example": "EUR"
                     },
                     "status": {
                         "type": "string",
+                        "enum": [
+                            "pending",
+                            "paid",
+                            "canceled"
+                        ],
                         "example": "pending"
                     },
                     "paid_at": {
