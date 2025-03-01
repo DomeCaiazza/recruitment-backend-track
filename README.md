@@ -86,6 +86,11 @@ Create Seeds:
 docker-compose exec php php artisan db:seed
  ```
 
+Look at application logs:
+```bash
+docker-compose exec php tail -f storage/logs/laravel.log  
+ ```
+
 
 ---
 
