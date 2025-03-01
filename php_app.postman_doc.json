@@ -1,0 +1,836 @@
+{
+	"info": {
+		"_postman_id": "29ee1bc6-34c8-4831-828c-8396575b109f",
+		"name": "Invoice Management API project",
+		"description": "This is an invoice Management API project writen in laravel. It provides endpoints to manage users, tax profiles, and invoices. The project is structured using the MVC architecture and includes automated tests, Docker support.\n\n**OpenAPI** **documentation** (after starting the application): [http://localhost/api/documentation](http://localhost/api/documentation)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16800389"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users?email=test@test.it&name=user_name&surname=user_surnema&password=user_password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "test@test.it",
+									"description": "required"
+								},
+								{
+									"key": "name",
+									"value": "user_name",
+									"description": "required"
+								},
+								{
+									"key": "surname",
+									"value": "user_surnema",
+									"description": "required"
+								},
+								{
+									"key": "password",
+									"value": "user_password",
+									"description": "required (encripted from the backend)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "filter[email]",
+									"value": "email",
+									"disabled": true
+								},
+								{
+									"key": "filter[name]",
+									"value": "name",
+									"disabled": true
+								},
+								{
+									"key": "filter[surname]",
+									"value": "surnema",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns a paginated collection of users"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1?name=update_name",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "update_name"
+								},
+								{
+									"key": "surname",
+									"value": "update_surname",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "update_email",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "update_password",
+									"description": "encripted from the application",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Updates an existing user's data. Only the provided fields will be updated."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Deletes a user by their ID and returns no content."
+					},
+					"response": []
+				}
+			],
+			"description": "Contains the user's essential information: email, name, surname and crypted password. The user is related one-to-one with a tax profile."
+		},
+		{
+			"name": "TaxProfile",
+			"item": [
+				{
+					"name": "Create TaxProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles?tax_code=tax_code&address=address&vat_number=vat_number&business_name=business_name",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles"
+							],
+							"query": [
+								{
+									"key": "tax_code",
+									"value": "tax_code",
+									"description": "Must be unique with vat_number"
+								},
+								{
+									"key": "address",
+									"value": "address"
+								},
+								{
+									"key": "vat_number",
+									"value": "vat_number",
+									"description": "Must be unique with tax_code"
+								},
+								{
+									"key": "business_name",
+									"value": "business_name"
+								}
+							]
+						},
+						"description": "Creates a new tax profile associated with the specified user."
+					},
+					"response": []
+				},
+				{
+					"name": "Read TaxProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles"
+							],
+							"query": [
+								{
+									"key": "filter[tax_code]",
+									"value": "tax_code",
+									"disabled": true
+								},
+								{
+									"key": "filter[address]",
+									"value": "address",
+									"disabled": true
+								},
+								{
+									"key": "filter[vat_number]",
+									"value": "vat_number",
+									"disabled": true
+								},
+								{
+									"key": "filter[business_name]",
+									"value": "business_name",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns a paginated collection of tax profiles"
+					},
+					"response": []
+				},
+				{
+					"name": "Update TaxProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles/1?tax_code=update_tax_code",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles",
+								"1"
+							],
+							"query": [
+								{
+									"key": "tax_code",
+									"value": "update_tax_code"
+								},
+								{
+									"key": "address",
+									"value": "update_address",
+									"disabled": true
+								},
+								{
+									"key": "vat_number",
+									"value": "update_vat_number",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Updates the details of a TaxProfile associated with the specified user. Returns a 404 error if the TaxProfile does not belong to the user."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete TaxProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles",
+								"1"
+							]
+						},
+						"description": "Deletes a TaxProfile by their ID and returns no content."
+					},
+					"response": []
+				}
+			],
+			"description": "Contains the user's tax profiles. Each tax profile contains vat number, tax identification number, business name and address. Each tax profile is related to user."
+		},
+		{
+			"name": "Invoice",
+			"item": [
+				{
+					"name": "Create Invoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles/1/invoices?invoice_date=2025-02-28&subtotal=100&tax_amount=22&discount=0&currency=EUR&status=paid&notes=notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles",
+								"1",
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "invoice_date",
+									"value": "2025-02-28",
+									"description": "required"
+								},
+								{
+									"key": "subtotal",
+									"value": "100",
+									"description": "required"
+								},
+								{
+									"key": "tax_amount",
+									"value": "22",
+									"description": "required"
+								},
+								{
+									"key": "discount",
+									"value": "0"
+								},
+								{
+									"key": "currency",
+									"value": "EUR"
+								},
+								{
+									"key": "status",
+									"value": "paid"
+								},
+								{
+									"key": "notes",
+									"value": "notes"
+								}
+							]
+						},
+						"description": "Creates a new invoice for the specified tax profile."
+					},
+					"response": []
+				},
+				{
+					"name": "Read Invoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles/1/invoices",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles",
+								"1",
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "filter[invoice_number]",
+									"value": "invoice_number",
+									"disabled": true
+								},
+								{
+									"key": "filter[invoice_date]",
+									"value": "2025-02-28",
+									"disabled": true
+								},
+								{
+									"key": "filter[invoice_date_before]",
+									"value": "2026-01-01",
+									"disabled": true
+								},
+								{
+									"key": "filter[invoice_date_after]",
+									"value": "2025-01-01",
+									"disabled": true
+								},
+								{
+									"key": "filter[currency]",
+									"value": "currency",
+									"disabled": true
+								},
+								{
+									"key": "filter[status]",
+									"value": "status",
+									"disabled": true
+								},
+								{
+									"key": "filter[notes]",
+									"value": "notes",
+									"disabled": true
+								},
+								{
+									"key": "per_page",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Returns a paginated list of invoices, with the ability to filter by invoice number, date, currency, status, and notes."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Invoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles/1/invoices/1?invoice_date=2025-02-27&subtotal=100.00&tax_amount=22.00&discount=0.00&currency=EUR&status=paid&notes=notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles",
+								"1",
+								"invoices",
+								"1"
+							],
+							"query": [
+								{
+									"key": "invoice_date",
+									"value": "2025-02-27"
+								},
+								{
+									"key": "subtotal",
+									"value": "100.00"
+								},
+								{
+									"key": "tax_amount",
+									"value": "22.00"
+								},
+								{
+									"key": "discount",
+									"value": "0.00"
+								},
+								{
+									"key": "currency",
+									"value": "EUR"
+								},
+								{
+									"key": "status",
+									"value": "paid"
+								},
+								{
+									"key": "notes",
+									"value": "notes"
+								},
+								{
+									"key": "address",
+									"value": "update_address",
+									"disabled": true
+								},
+								{
+									"key": "vat_number",
+									"value": "update_vat_number",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Updates an existing invoice. The invoice is updated only if it belongs to the specified tax profile. If no changes occur, a 204 No Content is returned."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Invoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "secret",
+								"description": "required API key authentication",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users/1/tax-profiles/1/invoices/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1",
+								"tax-profiles",
+								"1",
+								"invoices",
+								"1"
+							]
+						},
+						"description": "Deletes an Invoice by their ID and returns no content."
+					},
+					"response": []
+				}
+			],
+			"description": "Contains invoice data: unique number, subtotal, tax amount, discount, total, status, currency and notes. Each invoice is related to a tax profile, which is in turn related to a profile."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost",
+			"type": "string"
+		}
+	]
+}
