@@ -7,6 +7,6 @@ fi
 
 php artisan migrate --force
 
-php artisan test
+DB_HOST=db-testing php artisan test
 
 exec php-fpm
