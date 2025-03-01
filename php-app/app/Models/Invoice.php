@@ -33,7 +33,7 @@ class Invoice extends Model
     {
         $allowed = ['pending', 'paid', 'canceled'];
         if (!in_array($value, $allowed)) {
-            throw new \InvalidArgumBaentException("Invalid status: $value, allowed values: " . implode(',', $allowed));
+            throw new \InvalidArgumentException("Invalid status: $value, allowed values: " . implode(',', $allowed));
         }
 
         $this->attributes['status'] = $value;
@@ -52,35 +52,52 @@ class Invoice extends Model
     protected static function boot()
     {
         parent::boot();
-
+    
         static::creating(function ($invoice) {
-            $invoice->invoice_number = time() . '_' . Str::upper(Str::random(5));
-            $invoice->total = $invoice->subtotal + $invoice->tax_amount - $invoice->discount;
-
-            if ($invoice->status === 'paid') {
-                $invoice->paid_at = now();
-            }
-
-            if ($invoice->status === 'canceled') {
-                $invoice->canceled_at = now();
-            }
+            $invoice->setInvoiceNumber();
+            $invoice->setStatusTimestampsOnCreate();
         });
-
+    
         static::updating(function ($invoice) {
-
-            if ($invoice->isDirty('subtotal') || $invoice->isDirty('tax_amount') || $invoice->isDirty('discount')) {
-                $invoice->total = $invoice->subtotal + $invoice->tax_amount - $invoice->discount;
-            }
-
-            if ($invoice->isDirty('status') && $invoice->status === 'paid') {
-                $invoice->paid_at = now();
-            }
-
-            if ($invoice->isDirty('status') && $invoice->status === 'canceled') {
-                $invoice->canceled_at = now();
-            }
+            $invoice->calculateTotal();
+            $invoice->updateStatusTimestampsOnUpdate();
         });
     }
+    
+    public function setInvoiceNumber()
+    {
+        $this->invoice_number = time() . '_' . Str::upper(Str::random(5));
+    }
+    
+    public function setStatusTimestampsOnCreate()
+    {
+        if ($this->status === 'paid') {
+            $this->paid_at = now();
+        }
+    
+        if ($this->status === 'canceled') {
+            $this->canceled_at = now();
+        }
+    }
+    
+    public function calculateTotal()
+    {
+        if ($this->isDirty('subtotal') || $this->isDirty('tax_amount') || $this->isDirty('discount')) {
+            $this->total = $this->subtotal + $this->tax_amount - $this->discount;
+        }
+    }
+    
+    public function updateStatusTimestampsOnUpdate()
+    {
+        if ($this->isDirty('status')) {
+            if ($this->status === 'paid') {
+                $this->paid_at = now();
+            } elseif ($this->status === 'canceled') {
+                $this->canceled_at = now();
+            }
+        }
+    }
+    
 
     protected static function booted()
     {

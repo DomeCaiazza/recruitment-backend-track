@@ -8,6 +8,7 @@ use App\Http\Resources\TaxProfileResource;
 use App\Models\TaxProfile;
 use App\Models\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Validation\ValidationException;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -44,7 +45,11 @@ class TaxProfileController extends Controller
             'vat_number' => 'sometimes|max:128',
             'business_name' => 'sometimes|max:128',
           ]);
-        $taxProfile = $user->taxProfiles()->create($validatedData);
+        try {
+            $taxProfile = $user->taxProfiles()->create($validatedData);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => $e->errors()], 422);
+        }
         return response()->json([
             'message' => 'TaxProfile created successfully.',
             'data' => new TaxProfileResource($taxProfile)

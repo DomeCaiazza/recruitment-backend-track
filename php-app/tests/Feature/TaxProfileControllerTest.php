@@ -63,6 +63,25 @@ test('creates a new tax profile', function () {
     $this->assertDatabaseHas('tax_profiles', ['tax_code' => '123456789']);
 });
 
+test('does not create a duplicate tax profile', function () {
+    $data = [
+        'tax_code' => '123456789',
+        'address' => 'Test Address',
+        'vat_number' => 'VAT123456',
+        'business_name' => 'Test Business'
+    ];
+
+    $response = $this->withHeaders([
+        'X-API-KEY' => env('API_KEY_TESTING'),
+    ])->postJson(route('users.tax-profiles.store', $this->user), $data);
+
+    
+    $response = $this->withHeaders([
+        'X-API-KEY' => env('API_KEY_TESTING'),
+    ])->postJson(route('users.tax-profiles.store', $this->user), $data)->assertStatus(422);
+
+});
+
 test('displays a specific tax profile', function () {
     $taxProfile = TaxProfile::factory()->create(['user_id' => $this->user->id]);
 

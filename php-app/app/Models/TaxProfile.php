@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class TaxProfile extends Model
 {
@@ -37,7 +39,9 @@ class TaxProfile extends Model
                     ->where('tax_code', $model->tax_code)
                     ->where('vat_number', $model->vat_number)
                     ->exists()) {
-                throw new \Exception('Tax profile and VAT number must be unique for user');
+                        throw ValidationException::withMessages([
+                            'tax_profile' => 'Tax profile and VAT number must be unique for user',
+                        ]);
             }  
         });
     }
