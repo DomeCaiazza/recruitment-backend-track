@@ -23,43 +23,11 @@ class TaxProfileController extends Controller
      *     tags={"TaxProfiles"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="User ID",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="filter[tax_code]",
-     *         in="query",
-     *         description="Filter for partial search of tax code",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="filter[address]",
-     *         in="query",
-     *         description="Filter for partial address search",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="filter[vat_number]",
-     *         in="query",
-     *         description="Filter for partial VAT number search",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="filter[business_name]",
-     *         in="query",
-     *         description="Filter for partial company name search",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
+     *     @OA\Parameter(name="userId",in="path",description="User ID",required=true,@OA\Schema(type="integer")),
+     *     @OA\Parameter(name="filter[tax_code]",in="query",description="Filter for partial search of tax code",required=false,@OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[address]",in="query",description="Filter for partial address search",required=false,@OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[vat_number]",in="query",description="Filter for partial VAT number search",required=false,@OA\Schema(type="string")),
+     *     @OA\Parameter(name="filter[business_name]",in="query",description="Filter for partial company name search",required=false,@OA\Schema(type="string")),
      *     @OA\Parameter(ref="#/components/parameters/per_page"),
      *     @OA\Parameter(ref="#/components/parameters/page"),
      *     @OA\Response(
@@ -67,19 +35,11 @@ class TaxProfileController extends Controller
      *         description="Successful operation",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/TaxProfile")
-     *             ),
-     *             @OA\Property(
-     *                 property="links",
-     *                 type="array",
+     *             @OA\Property(property="data",type="array",@OA\Items(ref="#/components/schemas/TaxProfile")),
+     *             @OA\Property(property="links",type="array",
      *                 @OA\Items(ref="#/components/schemas/Links")
      *             ),
-     *             @OA\Property(
-     *                 property="meta",
-     *                 type="array",
+     *             @OA\Property(property="meta",type="array",
      *                 @OA\Items(ref="#/components/schemas/Meta")
      *             )
      *         )
@@ -115,44 +75,17 @@ class TaxProfileController extends Controller
      *     tags={"TaxProfiles"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="User ID",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
+     *     @OA\Parameter(name="userId",in="path",description="User ID",required=true,@OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         description="Data for creating a TaxProfile",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="tax_code",
-     *                 type="string",
-     *                 maxLength=128,
-     *                 description="Tax code (optional, must be unique with vat_number)"
-     *             ),
-     *             @OA\Property(
-     *                 property="address",
-     *                 type="string",
-     *                 maxLength=255,
-     *                 description="Address (optional)"
-     *             ),
-     *             @OA\Property(
-     *                 property="vat_number",
-     *                 type="string",
-     *                 maxLength=128,
-     *                 description="VAT number (optional, must be unique with tax_code)"
-     *             ),
-     *             @OA\Property(
-     *                 property="business_name",
-     *                 type="string",
-     *                 maxLength=128,
-     *                 description="Business name (optional)"
-     *             ),
+     *             @OA\Property(property="tax_code",type="string",maxLength=128,description="Tax code (optional, must be unique with vat_number)"),
+     *             @OA\Property(property="address",type="string",maxLength=255,description="Address (optional)"),
+     *             @OA\Property(property="vat_number",type="string",maxLength=128,description="VAT number (optional, must be unique with tax_code)"),
+     *             @OA\Property(property="business_name",type="string",maxLength=128,description="Business name (optional)"),
      *             example={
      *                 "tax_code": "RSSMRA80A01F205X",
      *                 "address": "Via Roma 1, 00100, Milano",
@@ -166,17 +99,8 @@ class TaxProfileController extends Controller
      *         description="TaxCode created successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="TaxProfile created successfully."
-     *             ),
-     *             @OA\Property(
-     *                 property="data",
-     *                 ref="#/components/schemas/TaxProfile"
-     *             )
-     *         )
-     *     ),
+     *             @OA\Property(property="message",type="string",example="TaxProfile created successfully."),
+     *             @OA\Property(property="data",ref="#/components/schemas/TaxProfile"))),
      *     @OA\Response(
      *         response=422,
      *         description="Unprocessable Entity",
@@ -207,24 +131,8 @@ class TaxProfileController extends Controller
      *     tags={"TaxProfiles"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of user",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the TaxProfile to retrieve",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="userId",in="path",description="ID of user",required=true,@OA\Schema(type="string")),
+     *     @OA\Parameter(name="id",in="path",description="ID of the TaxProfile to retrieve",required=true,@OA\Schema(type="string")),
      *     @OA\Response(
      *         response=200,
      *         description="User getted successfully",
@@ -253,53 +161,17 @@ class TaxProfileController extends Controller
     *     tags={"TaxProfiles"},
     *     security={{"ApiKeyAuth":{}}},
     *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-    *     @OA\Parameter(
-    *         name="userId",
-    *         in="path",
-    *         description="User ID",
-    *         required=true,
-    *         @OA\Schema(
-    *             type="integer"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="id",
-    *         in="path",
-    *         description="TaxProfile ID",
-    *         required=true,
-    *         @OA\Schema(
-    *             type="integer"
-    *         )
-    *     ),
+    *     @OA\Parameter(name="userId",in="path",description="User ID",required=true,@OA\Schema(type="integer")),
+    *     @OA\Parameter(name="id",in="path",description="TaxProfile ID",required=true,@OA\Schema(type="integer")),
     *     @OA\RequestBody(
     *         required=true,
     *         description="Data for updating the TaxProfile",
     *         @OA\JsonContent(
     *             type="object",
-    *             @OA\Property(
-    *                 property="tax_code",
-    *                 type="string",
-    *                 maxLength=128,
-    *                 description="Tax code (optional)"
-    *             ),
-    *             @OA\Property(
-    *                 property="address",
-    *                 type="string",
-    *                 maxLength=255,
-    *                 description="Address (optional)"
-    *             ),
-    *             @OA\Property(
-    *                 property="vat_number",
-    *                 type="string",
-    *                 maxLength=128,
-    *                 description="VAT number (optional)"
-    *             ),
-    *             @OA\Property(
-    *                 property="business_name",
-    *                 type="string",
-    *                 maxLength=128,
-    *                 description="Business name (optional)"
-    *             ),
+    *             @OA\Property(property="tax_code",type="string",maxLength=128,description="Tax code (optional)"),
+    *             @OA\Property(property="address",type="string",maxLength=255,description="Address (optional)"),
+    *             @OA\Property(property="vat_number",type="string",maxLength=128,description="VAT number (optional)"),
+    *             @OA\Property(property="business_name",type="string",maxLength=128,description="Business name (optional)"),
     *             example={
     *                 "tax_code": "RSSMRA80A01F205X",
     *                 "address": "Via Roma 2, 00100, Milano",
@@ -313,15 +185,8 @@ class TaxProfileController extends Controller
     *         description="TaxProfile updated successfully",
     *         @OA\JsonContent(
     *             type="object",
-    *             @OA\Property(
-    *                 property="message",
-    *                 type="string",
-    *                 example="TaxProfile updated successfully."
-    *             ),
-    *             @OA\Property(
-    *                 property="data",
-    *                 ref="#/components/schemas/TaxProfile"
-    *             )
+    *             @OA\Property(property="message",type="string",example="TaxProfile updated successfully."),
+    *             @OA\Property(property="data",ref="#/components/schemas/TaxProfile")
     *         )
     *     ),
     *     @OA\Response(
@@ -372,24 +237,8 @@ class TaxProfileController extends Controller
      *     tags={"TaxProfiles"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of the user",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the TaxProfile to delete",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="userId",in="path",description="ID of the user",required=true,@OA\Schema(type="string")),
+     *     @OA\Parameter(name="id",in="path",description="ID of the TaxProfile to delete",required=true,@OA\Schema(type="string")),
      *     @OA\Response(
      *         response=204,
      *         description="TaxProfile deleted successfully, no content returned."

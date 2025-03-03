@@ -23,112 +23,25 @@ class InvoiceController extends Controller
     *     tags={"Invoices"},
     *     security={{"ApiKeyAuth":{}}},
     *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-    *     @OA\Parameter(
-    *         name="userId",
-    *         in="path",
-    *         description="ID of the user",
-    *         required=true,
-    *         @OA\Schema(
-    *             type="integer"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="taxProfileId",
-    *         in="path",
-    *         description="ID of the tax profile",
-    *         required=true,
-    *         @OA\Schema(
-    *             type="integer"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[invoice_number]",
-    *         in="query",
-    *         description="Filter by invoice number (partial match)",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[invoice_date]",
-    *         in="query",
-    *         description="Filter by invoice date (partial match)",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string",
-    *             format="date"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[invoice_date_before]",
-    *         in="query",
-    *         description="Filter invoices with a date less than or equal to the specified date",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string",
-    *             format="date"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[invoice_date_after]",
-    *         in="query",
-    *         description="Filter invoices with a date greater than or equal to the specified date",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string",
-    *             format="date"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[currency]",
-    *         in="query",
-    *         description="Filter by currency",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[status]",
-    *         in="query",
-    *         description="Filter by status",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string"
-    *         )
-    *     ),
-    *     @OA\Parameter(
-    *         name="filter[notes]",
-    *         in="query",
-    *         description="Filter by notes (partial match)",
-    *         required=false,
-    *         @OA\Schema(
-    *             type="string"
-    *         )
-    *     ),
-     *     @OA\Parameter(ref="#/components/parameters/per_page"),
-     *     @OA\Parameter(ref="#/components/parameters/page"),
+    *     @OA\Parameter(name="userId",in="path",description="ID of the user",required=true,@OA\Schema(type="integer")),
+    *     @OA\Parameter(name="taxProfileId",in="path",description="ID of the tax profile",required=true,@OA\Schema(type="integer")),
+    *     @OA\Parameter(name="filter[invoice_number]",in="query",description="Filter by invoice number (partial match)",required=false,@OA\Schema(type="string")),
+    *     @OA\Parameter(name="filter[invoice_date]",in="query",description="Filter by invoice date (partial match)",required=false,@OA\Schema(type="string",format="date")),
+    *     @OA\Parameter(name="filter[invoice_date_before]",in="query",description="Filter invoices with a date less than or equal to the specified date",required=false,@OA\Schema(type="string",format="date")),
+    *     @OA\Parameter(name="filter[invoice_date_after]",in="query",description="Filter invoices with a date greater than or equal to the specified date",required=false,@OA\Schema(type="string",format="date")),
+    *     @OA\Parameter(name="filter[currency]",in="query",description="Filter by currency",required=false,@OA\Schema(type="string")),
+    *     @OA\Parameter(name="filter[status]",in="query",description="Filter by status",required=false,@OA\Schema(type="string")),
+    *     @OA\Parameter(name="filter[notes]",in="query",description="Filter by notes (partial match)",required=false,@OA\Schema(type="string")),
+    *     @OA\Parameter(ref="#/components/parameters/per_page"),
+    *     @OA\Parameter(ref="#/components/parameters/page"),
     *     @OA\Response(
     *         response=200,
     *         description="Successful operation",
     *         @OA\JsonContent(
     *             type="object",
-    *             @OA\Property(
-    *                 property="data",
-    *                 type="array",
-    *                 @OA\Items(ref="#/components/schemas/Invoice")
-    *             ),
-    *             @OA\Property(
-    *                 property="links",
-    *                 type="array",
-    *                 @OA\Items(ref="#/components/schemas/Links")
-    *             ),
-    *             @OA\Property(
-    *                 property="meta",
-    *                 type="array",
-    *                 @OA\Items(ref="#/components/schemas/Meta")
-    *             )
+    *             @OA\Property(property="data",type="array",@OA\Items(ref="#/components/schemas/Invoice")),
+    *             @OA\Property(property="links",type="array",@OA\Items(ref="#/components/schemas/Links")),
+    *             @OA\Property(property="meta",type="array",@OA\Items(ref="#/components/schemas/Meta"))
     *         )
     *     ),
     *     @OA\Response(
@@ -173,69 +86,19 @@ class InvoiceController extends Controller
      *     tags={"Invoices"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of the user",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="taxProfileId",
-     *         in="path",
-     *         description="ID of the tax profile",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="userId",in="path",description="ID of the user",required=true,@OA\Schema(type="integer")),
+     *     @OA\Parameter(name="taxProfileId",in="path",description="ID of the tax profile",required=true,@OA\Schema(type="integer")),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             required={"invoice_date", "subtotal", "tax_amount", "discount"},
-     *             @OA\Property(
-     *                 property="invoice_date",
-     *                 type="string",
-     *                 format="date",
-     *                 example="2025-03-01"
-     *             ),
-     *             @OA\Property(
-     *                 property="subtotal",
-     *                 type="number",
-     *                 format="float",
-     *                 example=100.50
-     *             ),
-     *             @OA\Property(
-     *                 property="tax_amount",
-     *                 type="number",
-     *                 format="float",
-     *                 example=15.07
-     *             ),
-     *             @OA\Property(
-     *                 property="discount",
-     *                 type="number",
-     *                 format="float",
-     *                 example=5.00
-     *             ),
-     *             @OA\Property(
-     *                 property="currency",
-     *                 type="string",
-     *                 enum={"EUR", "USD"},
-     *                 example="EUR"
-     *             ),
-     *             @OA\Property(
-     *                 property="status",
-     *                 type="string",
-     *                 enum={"pending", "paid", "canceled"},
-     *                 example="pending"
-     *             ),
-     *             @OA\Property(
-     *                 property="notes",
-     *                 type="string",
-     *                 example="Invoice for services rendered"
-     *             )
+     *             @OA\Property(property="invoice_date",type="string",format="date",example="2025-03-01"),
+     *             @OA\Property(property="subtotal",type="number",format="float",example=100.50),
+     *             @OA\Property(property="tax_amount",type="number",format="float",example=15.07),
+     *             @OA\Property(property="discount",type="number",format="float",example=5.00),
+     *             @OA\Property(property="currency",type="string",enum={"EUR", "USD"},example="EUR"),
+     *             @OA\Property(property="status",type="string",enum={"pending", "paid", "canceled"},example="pending"),
+     *             @OA\Property(property="notes",type="string",example="Invoice for services rendered")
      *         )
      *     ),
      *     @OA\Response(
@@ -243,15 +106,8 @@ class InvoiceController extends Controller
      *         description="Invoice created successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Invoice created successfully."
-     *             ),
-     *             @OA\Property(
-     *                 property="data",
-     *                 ref="#/components/schemas/Invoice"
-     *             )
+     *             @OA\Property(property="message",type="string",example="Invoice created successfully."),
+     *             @OA\Property(property="data",ref="#/components/schemas/Invoice")
      *         )
      *     ),
      *     @OA\Response(
@@ -298,33 +154,9 @@ class InvoiceController extends Controller
      *     tags={"Invoices"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of the user",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="taxProfileId",
-     *         in="path",
-     *         description="ID of the tax profile",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the invoice",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="userId",in="path",description="ID of the user",required=true,@OA\Schema(type="integer")),
+     *     @OA\Parameter(name="taxProfileId",in="path",description="ID of the tax profile",required=true,@OA\Schema(type="integer")),
+     *     @OA\Parameter(name="id",in="path",description="ID of the invoice",required=true,@OA\Schema(type="integer")),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -354,75 +186,19 @@ class InvoiceController extends Controller
      *     tags={"Invoices"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of the user",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="taxProfileId",
-     *         in="path",
-     *         description="ID of the tax profile",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the invoice",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="userId",in="path",description="ID of the user",required=true,@OA\Schema(type="integer")),
+     *     @OA\Parameter(name="taxProfileId",in="path",description="ID of the tax profile",required=true,@OA\Schema(type="integer")),
+     *     @OA\Parameter(name="id",in="path",description="ID of the invoice",required=true,@OA\Schema(type="integer")),
      *     @OA\RequestBody(
      *         required=false,
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="invoice_date",
-     *                 type="string",
-     *                 format="date",
-     *                 example="2025-03-01"
-     *             ),
-     *             @OA\Property(
-     *                 property="subtotal",
-     *                 type="number",
-     *                 format="float",
-     *                 example=100.50
-     *             ),
-     *             @OA\Property(
-     *                 property="tax_amount",
-     *                 type="number",
-     *                 format="float",
-     *                 example=15.07
-     *             ),
-     *             @OA\Property(
-     *                 property="discount",
-     *                 type="number",
-     *                 format="float",
-     *                 example=5.00
-     *             ),
-     *             @OA\Property(
-     *                 property="currency",
-     *                 type="string",
-     *                 example="USD"
-     *             ),
-     *             @OA\Property(
-     *                 property="status",
-     *                 type="string",
-     *                 example="pending"
-     *             ),
-     *             @OA\Property(
-     *                 property="notes",
-     *                 type="string",
-     *                 example="Updated invoice note"
-     *             )
+     *             @OA\Property(property="invoice_date",type="string",format="date",example="2025-03-01"),
+     *             @OA\Property(property="subtotal",type="number",format="float",example=100.50),
+     *             @OA\Property(property="tax_amount",type="number",format="float",example=15.07),
+     *             @OA\Property(property="discount",type="number",format="float",example=5.00),
+     *             @OA\Property(property="currency",type="string",example="USD"),
+     *             @OA\Property(property="status",type="string",example="pending"),
+     *             @OA\Property(property="notes",type="string",example="Updated invoice note")
      *         )
      *     ),
      *     @OA\Response(
@@ -430,15 +206,8 @@ class InvoiceController extends Controller
      *         description="Invoice updated successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Invoice updated successfully."
-     *             ),
-     *             @OA\Property(
-     *                 property="data",
-     *                 ref="#/components/schemas/Invoice"
-     *             )
+     *             @OA\Property(property="message",type="string",example="Invoice updated successfully."),
+     *             @OA\Property(property="data",ref="#/components/schemas/Invoice")
      *         )
      *     ),
      *     @OA\Response(
@@ -450,11 +219,7 @@ class InvoiceController extends Controller
      *         description="Bad Request - Invalid arguments",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 example="Error message"
-     *             )
+     *             @OA\Property(property="message",type="string",example="Error message")
      *         )
      *     ),
      *     @OA\Response(
@@ -504,32 +269,10 @@ class InvoiceController extends Controller
      *     tags={"Invoices"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="userId",
-     *         in="path",
-     *         description="ID of the user",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
+     *     @OA\Parameter(name="userId",in="path",description="ID of the user",required=true,@OA\Schema(type="string")),
+     *     @OA\Parameter(name="taxProfileId",in="path",description="ID of the tax profile",required=true,@OA\Schema(type="string")
      *     ),
-     *     @OA\Parameter(
-     *         name="taxProfileId",
-     *         in="path",
-     *         description="ID of the tax profile",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the Invoice to delete",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
+     *     @OA\Parameter(name="id",in="path",description="ID of the Invoice to delete",required=true,@OA\Schema(type="string")
      *     ),
      *     @OA\Response(
      *         response=204,

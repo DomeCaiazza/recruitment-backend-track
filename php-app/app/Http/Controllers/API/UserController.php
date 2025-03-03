@@ -21,27 +21,9 @@ class UserController extends Controller
      *     tags={"Users"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="filter[email]",
-     *         in="query",
-     *         description="Filter by email",
-     *         required=false,
-     *         @OA\Schema(type="steing", format="email", example="mario@example.com")
-     *     ),
-     *     @OA\Parameter(
-     *         name="filter[name]",
-     *         in="query",
-     *         description="Filter by name",
-     *         required=false,
-     *         @OA\Schema(type="steing", example="Mario")
-     *     ),
-     *     @OA\Parameter(
-     *         name="filter[surname]",
-     *         in="query",
-     *         description="Filter by surname",
-     *         required=false,
-     *         @OA\Schema(type="steing", example="Rossi")
-     *     ),
+     *     @OA\Parameter(name="filter[email]",in="query",description="Filter by email",required=false,@OA\Schema(type="steing", format="email", example="mario@example.com")),
+     *     @OA\Parameter(name="filter[name]",in="query",description="Filter by name",required=false,@OA\Schema(type="steing", example="Mario")),
+     *     @OA\Parameter(name="filter[surname]",in="query",description="Filter by surname",required=false,@OA\Schema(type="steing", example="Rossi")),
      *     @OA\Parameter(ref="#/components/parameters/per_page"),
      *     @OA\Parameter(ref="#/components/parameters/page"),
      * @OA\Response(
@@ -49,21 +31,9 @@ class UserController extends Controller
      *     description="Successful operation",
      *     @OA\JsonContent(
      *         type="object",
-     *         @OA\Property(
-     *             property="data",
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/User")
-     *         ),
-     *         @OA\Property(
-     *             property="links",
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Links")
-     *         ),
-     *         @OA\Property(
-     *             property="meta",
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Meta")
-     *         )
+     *         @OA\Property(property="data",type="array",@OA\Items(ref="#/components/schemas/User")),
+     *         @OA\Property(property="links",type="array",@OA\Items(ref="#/components/schemas/Links")),
+     *         @OA\Property(property="meta",type="array",@OA\Items(ref="#/components/schemas/Meta"))
      *     )
      * )
      * )
@@ -146,15 +116,7 @@ class UserController extends Controller
      *     tags={"Users"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the user to retrieve",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="id",in="path",description="ID of the user to retrieve",required=true,@OA\Schema(type="string")),
      *     @OA\Response(
      *         response=200,
      *         description="User getted successfully",
@@ -180,15 +142,7 @@ class UserController extends Controller
      *     tags={"Users"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the user to update",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="id",in="path",description="ID of the user to update",required=true,@OA\Schema(type="string")),
      *     @OA\RequestBody(
      *         required=true,
      *         description="Data for updating the user. Include only the fields you wish to change.",
@@ -247,15 +201,7 @@ class UserController extends Controller
      *     tags={"Users"},
      *     security={{"ApiKeyAuth":{}}},
      *     @OA\Parameter(ref="#/components/parameters/xApiKeyHeader"),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the user to delete",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="string"
-     *         )
-     *     ),
+     *     @OA\Parameter(name="id",in="path",description="ID of the user to delete",required=true,@OA\Schema(type="string")),
      *     @OA\Response(
      *         response=204,
      *         description="User deleted successfully, no content returned."
